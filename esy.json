@@ -1,0 +1,31 @@
+{
+  "version": "1.13.0",
+  "esy": {
+    "buildsInSource": "unsafe",
+    "build": [
+      ["bash", "-c", "#{os == 'windows' ? './files/prepare-windows.sh' : 'true'}"],
+      "find ./ -exec touch -t 200905010101 {} +"
+    ],
+    "exportedEnv": {
+      "FSWATCH_INCLUDE_PATH": {
+        "val": "#{self.install / 'include'}",
+        "scope": "global"
+      },
+      "FSWATCH_BIN_PATH": {
+        "val": "#{self.install / 'fswatch'}",
+        "scope": "global"
+      },
+      "LIBRARY_PATH": {
+        "val": "#{esy-fswatch-prebuilt.install / 'lib' : $LIBRARY_PATH}",
+        "scope": "global"
+      }
+    }
+  },
+  "dependencies": {
+    "libtools": "esy-packages/esy-libtools#0fe768722d345533f86df32f4de3b6a374160e2e",
+    "gettext": "ulrikstrid/esy-gettext-1:package.json#9250ec0",
+    "automake": "esy-packages/esy-automake#f4fecab89169dd64cc363ec902d828c55c257fc0",
+    "autoconf": "esy-packages/esy-autoconf#ea58671a08c7ebf89b0cebd41f4950ca67157b01",
+    "libiconv": "esy-packages/esy-libiconv#38bab1ac2d53ae01b9c945620f6267446c4b2baa"
+  }
+}
