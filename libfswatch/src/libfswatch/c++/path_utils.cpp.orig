@@ -57,9 +57,6 @@ namespace fsw
 
   bool read_link_path(const string& path, string& link_path)
   {
-#ifdef _WIN32
-    return false;
-#else
     char *real_path = realpath(path.c_str(), nullptr);
     link_path = (real_path ? real_path : path);
 
@@ -67,7 +64,6 @@ namespace fsw
     free(real_path);
 
     return ret;
-#endif
   }
 
   bool stat_path(const string& path, struct stat& fd_stat)
@@ -84,10 +80,6 @@ namespace fsw
 
   bool lstat_path(const string& path, struct stat& fd_stat)
   {
-#ifdef _WIN32
-    fsw_logf_perror(_("Cannot lstat %s (not implemented on Windows)"), path.c_str());
-    return false;
-#else
     if (lstat(path.c_str(), &fd_stat) != 0)
     {
       fsw_logf_perror(_("Cannot lstat %s"), path.c_str());
@@ -96,6 +88,5 @@ namespace fsw
     }
 
     return true;
-#endif
   }
 }
